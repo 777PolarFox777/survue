@@ -1,23 +1,25 @@
 <template>
-  <div class="container width-75 padding-y-24">
-    <ul class="nav nav-tabs margin-bottom-12">
-      <li class="nav-item">
-        <a class="nav-link" @click="changeTab(tabs.edit)" :class="{ active: tab === tabs.edit}">Edit</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" @click="changeTab(tabs.preview)" :class="{ active: tab === tabs.preview}">Preview</a>
-      </li>
-    </ul>
-    <template v-if="tab === tabs.edit">
-      <template v-for="question of questions">
-        <QuestionFormItem @remove-question="removeNewQuestion" @move-question="moveQuestion" :key="question.id" :question="question"></QuestionFormItem>
+  <v-app>
+    <div class="">
+      <ul class="nav nav-tabs margin-bottom-12">
+        <li class="nav-item">
+          <a class="nav-link" @click="changeTab(tabs.edit)" :class="{ active: tab === tabs.edit}">Edit</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" @click="changeTab(tabs.preview)" :class="{ active: tab === tabs.preview}">Preview</a>
+        </li>
+      </ul>
+      <template v-if="tab === tabs.edit">
+        <template v-for="question of questions">
+          <QuestionFormItem @remove-question="removeNewQuestion" @move-question="moveQuestion" :key="question.id" :question="question"></QuestionFormItem>
+        </template>
+        <QuestionFormItem @add-question="addNewQuestion" :isAddQuestion="true"></QuestionFormItem>
       </template>
-      <QuestionFormItem @add-question="addNewQuestion" :isAddQuestion="true"></QuestionFormItem>
-    </template>
-    <template v-if="tab === tabs.preview">
-      TODO
-    </template>
-  </div>
+      <template v-if="tab === tabs.preview">
+        TODO
+      </template>
+    </div>
+  </v-app>
 </template>
 
 <script>
@@ -96,5 +98,9 @@ export default {
     &.down {
       bottom: 5px;
     }
+  }
+
+  body {
+    background-color: #e5e5e0;
   }
 </style>

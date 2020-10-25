@@ -1,44 +1,39 @@
 <template>
-  <div class="row question-panel">
-    <template v-if="isAddQuestion">
-      <div class="offset-6 col-1 margin-auto">
-        <button @click="$emit('add-question')" class="add-question-button align-self-center">
-          <i class="fa fa-3x fa-plus-circle" />
-        </button>
-      </div>
-    </template>
-    <template v-else>
-      <div class="col-8 margin-bottom-12">
-        <label>Question</label>
-        <input v-model="question.question" class="form-control" />
-      </div>
-      <div class="col-4 margin-bottom-12">
-        <label>Answer type</label>
-        <select v-model="question.type" class="form-control">
-          <option :value="questionTypes.textInput">Text Input</option>
-          <option :value="questionTypes.textarea">Textarea</option>
-          <option :value="questionTypes.select">Select</option>
-          <option :value="questionTypes.checkbox">Checkbox</option>
-          <option :value="questionTypes.radio">Radio</option>
-        </select>
-      </div>
-      <div class="col-4 margin-bottom-12">
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="customSwitch1">
-          <label class="custom-control-label" for="customSwitch1">Is optional?</label>
+  <v-card>
+    <v-container :class="{ 'mb-6': !isAddQuestion }">
+      <template v-if="isAddQuestion">
+        <v-row justify="center">
+          <v-col cols="2" class="d-flex">
+            <v-btn fab @click="$emit('add-question')" class="ma-auto">
+              <i class="fa fa-3x fa-plus-circle add-question-icon" />
+            </v-btn>
+          </v-col>
+        </v-row>
+      </template>
+      <template v-else>
+        <div>
+          <v-text-field filled label="Question" v-model="question.question" />
         </div>
-      </div>
-      <button class="order-button up" @click="$emit('move-question', question.id, 'up')">
-        <i class="fa fa-chevron-up" />
-      </button>
-      <button class="order-button down" @click="$emit('move-question', question.id, 'down')">
-        <i class="fa fa-chevron-down" />
-      </button>
-      <button @click="$emit('remove-question', question.id)" class="remove-question-button">
-        <i class="fa fa-trash-alt" />
-      </button>
-    </template>
-  </div>
+        <div>
+          <v-select filled :items="items" v-model="question.type" label="Answer type" />
+        </div>
+        <div>
+          <div class="custom-control custom-switch">
+            <v-input label="Is optional?" type="checkbox" class="custom-control-input" id="customSwitch1" />
+          </div>
+        </div>
+        <v-btn class="order-button up" @click="$emit('move-question', question.id, 'up')">
+          <i class="fa fa-chevron-up" />
+        </v-btn>
+        <v-btn class="order-button down" @click="$emit('move-question', question.id, 'down')">
+          <i class="fa fa-chevron-down" />
+        </v-btn>
+        <v-btn @click="$emit('remove-question', question.id)" class="remove-question-button">
+          <i class="fa fa-trash-alt" />
+        </v-btn>
+      </template>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
@@ -54,8 +49,10 @@ export default {
     },
   },
   setup() {
+    const items = Object.keys(questionTypes);
+
     return {
-      questionTypes,
+      items,
     };
   }
 };
@@ -79,7 +76,7 @@ export default {
   .question-panel {
     position: relative;
     padding: 32px 0;
-    background-color: #e9e5df;
+    background-color: white;
     border-radius: 6px;
 
     &:not(:last-child) {
@@ -87,7 +84,7 @@ export default {
     }
   }
 
-  .add-question-button {
+  .add-question-icon {
     color: #45b77c;
   }
 
