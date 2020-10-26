@@ -1,40 +1,36 @@
 <template>
   <v-app>
     <div class="">
-      <ul class="nav nav-tabs margin-bottom-12">
-        <li class="nav-item">
-          <a class="nav-link" @click="changeTab(tabs.edit)" :class="{ active: tab === tabs.edit}">Edit</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" @click="changeTab(tabs.preview)" :class="{ active: tab === tabs.preview}">Preview</a>
-        </li>
-      </ul>
-      <template v-if="tab === tabs.edit">
-        <template v-for="question of questions">
-          <QuestionFormItem @remove-question="removeNewQuestion" @move-question="moveQuestion" :key="question.id" :question="question"></QuestionFormItem>
-        </template>
-        <QuestionFormItem @add-question="addNewQuestion" :isAddQuestion="true"></QuestionFormItem>
-      </template>
-      <template v-if="tab === tabs.preview">
-        TODO
-      </template>
+      <NavTabs />
+      <v-tabs-items :value="activeTab">
+        <v-tab-item>
+          <template v-for="question of questions">
+            <QuestionFormItem @remove-question="removeNewQuestion" @move-question="moveQuestion" :key="question.id" :question="question"></QuestionFormItem>
+          </template>
+          <QuestionFormItem @add-question="addNewQuestion" :isAddQuestion="true"></QuestionFormItem>
+        </v-tab-item>
+        <v-tab-item>
+          TODO
+        </v-tab-item>
+      </v-tabs-items>
     </div>
   </v-app>
 </template>
 
 <script>
-import { ref }  from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { createQuestion } from '@/helpers';
-import QuestionFormItem from '@/components/QuestionFormItem';
-import { tabs } from '@/constants';
+import QuestionFormItem from '@/components/QuestionFormItem/QuestionFormItem';
+import NavTabs from "@/components/NavTabs/NavTabs";
+import store from "@/store";
 
 export default {
   name: 'App',
   components: {
+    NavTabs,
     QuestionFormItem,
   },
   setup() {
-    const tab = ref(tabs.edit);
     const questions = ref([createQuestion()]);
 
     const addNewQuestion = () => {
@@ -62,16 +58,14 @@ export default {
         questions.value.splice(to, 0, questions.value.splice(from, 1)[0]);
     };
 
-    const changeTab = (newTab) => tab.value = newTab;
+    const activeTab = computed(() => store.navTabs.activeTab);
 
     return {
-      tabs,
-      tab,
+      activeTab,
       questions,
       addNewQuestion,
       removeNewQuestion,
       moveQuestion,
-      changeTab,
     }
   },
 };

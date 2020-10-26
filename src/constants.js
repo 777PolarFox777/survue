@@ -5,8 +5,3 @@ export const questionTypes = {
   checkbox: 'checkbox',
   radio: 'radio',
 };
-
-export const tabs = {
-  edit: 'edit',
-  preview: 'preview',
-}
