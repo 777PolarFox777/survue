@@ -17,7 +17,7 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
 import { computed, ref } from '@vue/composition-api';
 import { createQuestion } from '@/helpers';
 import QuestionFormItem from '@/components/QuestionFormItem/QuestionFormItem';
@@ -72,7 +72,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "src/styles/helpers";
   button {
     border: none;
     background-color: transparent;

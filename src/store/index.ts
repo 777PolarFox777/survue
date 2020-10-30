@@ -20,3 +20,5 @@ const storeConfig = {
 export const store = setupStore(storeConfig);
 
 export default store;
+
+store.navTabs.setActiveTab("123");
